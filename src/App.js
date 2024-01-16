@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Card from './components/Card';
@@ -17,8 +17,23 @@ const photos = [
 function App() {
   const [items, setItems] = useState(photos)
   const [isCollapsed, collapse]= useState(false)
+  const [inputs, setInputs] = useState({title: null, file: null, path: null})
 
   const toggle = () => collapse(!isCollapsed)
+
+  const handleOnChange = (e) => {
+    if (e.target.name === 'file') {
+      setInputs({...inputs, file: e.target.files[0], path: URL.createObjectURL(e.target.files[0])})
+    } 
+    else {setInputs({...inputs, title:e.target.value})}
+  }
+   
+
+  const hanldeOnSubtmi = (e)=> {
+     e.preventDefault()
+     setItems([inputs.path,...items])
+
+  }
   return (
     <>
       <Navbar />
@@ -30,13 +45,13 @@ function App() {
 
       <div className='clearfix mb-4'></div>
 
-      <UploadForm isVisible={isCollapsed}/>
+      <UploadForm isVisible= {isCollapsed} onChange= {handleOnChange} onSubmit = {hanldeOnSubtmi}/>
         <h1>Gallery</h1>
 
         <div className="row">
             {items.map((photo)=> <Card src={photo}/>)}
         </div>
-        
+
       </div>
     </>
   );

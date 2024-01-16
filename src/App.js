@@ -15,6 +15,7 @@ const photos = [
 ]
 
 function App() {
+  const [count, setCount] = useState()
   const [items, setItems] = useState(photos)
   const [isCollapsed, collapse]= useState(false)
   const [inputs, setInputs] = useState({title: null, file: null, path: null})
@@ -29,11 +30,17 @@ function App() {
   }
    
 
-  const hanldeOnSubtmi = (e)=> {
+  const hanldeOnSubmit = (e)=> {
      e.preventDefault()
      setItems([inputs.path,...items])
 
   }
+
+  useEffect(()=> {
+    setCount(`you have ${items.length} image${items.length > 1 ? 's' : ''}`)
+  },[items])
+
+  
   return (
     <>
       <Navbar />
@@ -45,7 +52,8 @@ function App() {
 
       <div className='clearfix mb-4'></div>
 
-      <UploadForm isVisible= {isCollapsed} onChange= {handleOnChange} onSubmit = {hanldeOnSubtmi}/>
+      <UploadForm isVisible= {isCollapsed} onChange= {handleOnChange} onSubmit = {hanldeOnSubmit}/>
+      {count}
         <h1>Gallery</h1>
 
         <div className="row">

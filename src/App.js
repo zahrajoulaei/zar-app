@@ -33,6 +33,8 @@ function App() {
   const hanldeOnSubmit = (e)=> {
      e.preventDefault()
      setItems([inputs.path,...items])
+     setInputs({title: null, file: null, path: null})
+     collapse(false)
 
   }
 

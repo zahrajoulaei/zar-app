@@ -1,20 +1,36 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
 import Card from './components/Card';
 import UploadForm from './components/Uploadform';
 
 
-const photos = [
-  'https://picsum.photos/id/1001/200/200', 
-  'https://picsum.photos/id/1002/200/200', 
-  'https://picsum.photos/id/1003/200/200', 
-  'https://picsum.photos/id/1004/200/200', 
-  'https://picsum.photos/id/1005/200/200', 
-  'https://picsum.photos/id/1006/200/200'
-]
+const photos = []
+
+const initialState = {
+  items: photos,
+  count: photos.length,
+  inputs: {title: null, file: null, path: null},
+  isCollapsed: false
+
+}
+function reducer(state, action) {
+  switch(action.type) {
+    case 'setItem':
+    return {
+    ...state,
+    items: [action.payload.path,...state.items]
+
+    }
+    default: return state
+
+
+  }
+
+}
 
 function App() {
+  const [state, dispatch]= useReducer(reducer, initialState)
   const [count, setCount] = useState()
   const [items, setItems] = useState(photos)
   const [isCollapsed, collapse]= useState(false)
@@ -32,13 +48,17 @@ function App() {
 
   const hanldeOnSubmit = (e)=> {
      e.preventDefault()
-     setItems([inputs.path,...items])
+    //  setItems([inputs.path,...items])
+    dispatch({type:'setItem', payload: {path: inputs.path} })
      setInputs({title: null, file: null, path: null})
      collapse(false)
 
   }
+  useEffect( ()=> {
+    console.log(state)
+  },[state.items])
 
-  useEffect(()=> {
+  useEffect(() => {
     setCount(`you have ${items.length} image${items.length > 1 ? 's' : ''}`)
   },[items])
 
@@ -59,7 +79,7 @@ function App() {
         <h1>Gallery</h1>
 
         <div className="row">
-            {items.map((photo)=> <Card src={photo}/>)}
+            {state.items.map((photo, index)=> <Card key={index} src={photo}/>)}
         </div>
 
       </div>

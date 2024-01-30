@@ -1,8 +1,7 @@
 import { useState, useEffect, useReducer } from 'react';
 import './App.css';
-import Navbar from './components/Navbar';
-import Card from './components/Card';
-import UploadForm from './components/Uploadform';
+import Layout from './components/Layout'
+import Card from './components/Card'
 
 
 const photos = []
@@ -74,26 +73,17 @@ function App() {
 
   
   return (
-    <>
-      <Navbar />
-      <div className="container text-center mt-5">
-
-      <button className='btn btn-success float-end' onClick={()=> toggle(!state.isCollapsed)}>
-        {state.isCollapsed? 'Close': '+ Add'}
-      </button>
-
-      <div className='clearfix mb-4'></div>
-
-      <UploadForm inputs={state.inputs} isVisible= {state.isCollapsed} onChange= {handleOnChange} onSubmit = {hanldeOnSubmit}/>
+    <Layout state={state}
+     onChange={handleOnChange} 
+     onSubmit={hanldeOnSubmit} 
+     toggle={toggle}>
+      
+      <h1>Gallery</h1>
       {count}
-        <h1>Gallery</h1>
-
-        <div className="row">
+      <div className="row">
             {state.items.map((photo, index)=> <Card key={index} src={photo}/>)}
-        </div>
-
       </div>
-    </>
+    </Layout>
   );
 }
 

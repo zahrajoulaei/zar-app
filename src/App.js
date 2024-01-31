@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useMemo } from 'react';
 import './App.css';
 import Layout from './components/Layout'
 import Card from './components/Card'
@@ -28,7 +28,9 @@ function reducer(state, action) {
     case 'setItem':
     return {
       ...state,
-      items: [state.inputs, ...state.items]
+      items: [state.inputs, ...state.items],
+      count: state.items.length+1 ,
+      inputs: {title: null, file: null, path: null}
     }
 
     case 'setInputs':
@@ -37,6 +39,7 @@ function reducer(state, action) {
       inputs: handleOnChange(state, action.payload.value)
 
     }
+
     case 'collapse': 
     return {
       ...state,
@@ -44,15 +47,12 @@ function reducer(state, action) {
     }
 
     default: return state
-
-
   }
 
 }
 
 function App() {
   const [state, dispatch]= useReducer(reducer, initialState)
-  const [count, setCount] = useState()
 
   const toggle = (bool) => dispatch({type: 'collapse',payload: {bool} })
 
@@ -66,11 +66,10 @@ function App() {
     toggle(!state.isCollapsed)
 
   }
+ const count = useMemo(()=> {
+  return `you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`
 
-  useEffect(() => {
-    setCount(`you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`)
-  },[state.items])
-
+ },[state.items])
   
   return (
     <Layout state={state}
@@ -78,10 +77,10 @@ function App() {
      onSubmit={hanldeOnSubmit} 
      toggle={toggle}>
       
-      <h1>Gallery</h1>
+      <h1 className='text-center'>Gallery</h1>
       {count}
       <div className="row">
-            {state.items.map((photo, index)=> <Card key={index} src={photo}/>)}
+            {state.items.map((item, index)=> <Card key={index} {...item}/>)}
       </div>
     </Layout>
   );

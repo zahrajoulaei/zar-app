@@ -6,7 +6,7 @@ function Layout({children, state, onChange, onSubmit, toggle}) {
         <>
             <Navbar />
 
-            <div className="container text-center mt-5">
+            <div className="container mt-5">
                 <button className='btn btn-success float-end' onClick={()=> toggle(!state.isCollapsed)}>
                 {state.isCollapsed? 'Close': '+ Add'}
                 </button>

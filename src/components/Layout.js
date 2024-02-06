@@ -1,7 +1,12 @@
+import { useContext } from 'react'
+import { Context } from '../context'
 import Navbar from "./Navbar";
 import UploadForm from "./Uploadform"
 
-function Layout({children, state, onChange, onSubmit, toggle}) {
+function Layout({ children}) {
+    const {dispatch, state} = useContext(Context)
+    const toggle = (bool) => dispatch({type: 'collapse',payload: {bool} })
+
     return(
         <>
             <Navbar />
@@ -16,8 +21,6 @@ function Layout({children, state, onChange, onSubmit, toggle}) {
                 <UploadForm 
                 inputs={state.inputs}
                 isVisible= {state.isCollapsed} 
-                onChange= {onChange}
-                onSubmit = {onSubmit}
                 />
                 {children}
             </div>

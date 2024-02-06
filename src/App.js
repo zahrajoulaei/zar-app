@@ -1,4 +1,5 @@
-import {useContext, useReducer, useMemo } from 'react';
+import {useContext, useEffect, useMemo } from 'react';
+import app from './lib/firebase.config';
 import {Context} from './context';
 import './App.css';
 import Layout from './components/Layout'
@@ -10,6 +11,9 @@ function App() {
   return `you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`
 
  },[state.items])
+ useEffect(()=> {
+  app()
+ },[])
   
   return (
     <Layout>

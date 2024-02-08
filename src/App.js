@@ -2,7 +2,10 @@ import {useContext, useEffect, useMemo } from 'react';
 import {Context} from './context';
 import './App.css';
 import Layout from './components/Layout'
-import Card from './components/Card'
+import Card from './components/Card' 
+import Firestore from './handlers/firestore'
+ 
+const {readDocs} = Firestore
 
 function App() {
  const {state} = useContext(Context)
@@ -10,6 +13,11 @@ function App() {
   return `you have ${state.items.length} image${state.items.length > 1 ? 's' : ''}`
 
  },[state.items])
+
+ useEffect(()=> {
+  readDocs().then(console.log)
+
+ },[])
   
   return (
     <Layout>

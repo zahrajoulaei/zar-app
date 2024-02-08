@@ -2,6 +2,7 @@ import { useMemo , useContext
  } from "react";
  import { Context } from "../context";
  import Firestore from '../handlers/firestore'
+ 
  const {writeDoc} = Firestore
 
 const Preview = () => {

@@ -15,7 +15,6 @@ const Storage = {
         })
     },
     downloadFile: (media)=> {
-        debugger
         return new Promise(async resolve => {
             try{
                 const mediaRef = ref(storage, media.path)

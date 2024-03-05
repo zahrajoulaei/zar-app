@@ -1,5 +1,5 @@
 import {useContext, useEffect, useMemo } from 'react';
-import {Context} from './context';
+import {Context} from './context/FirestoreContext';
 import './App.css';
 import Layout from './components/Layout'
 import Card from './components/Card' 
